@@ -132,7 +132,7 @@ class SequentialModel:
       for idx_batch, (X_batch, y_batch) in enumerate(zip(X_batches, y_batches)):
         print("---- Batch #{}".format(idx_batch + 1))
         for idx, (input_data, target_label) in enumerate(zip(X_batch, y_batch)) :
-          print("------ Forward passing data #{} ...\t".format((idx + 1) + (idx_batch * batch_size)), end='')
+          print("\n------ Forward passing data #{} ...\t".format((idx + 1) + (idx_batch * batch_size)), end='')
           sys.stdout.flush()
           forward_start = time.time()
           output = self.forward(input_data)
@@ -203,6 +203,27 @@ class SequentialModel:
       raise Exception('Invalid layer type: ' + self.layers[-1].name)
 
     return predicted_labels
+
+  def forward_propagation(self,
+          X: np.array,
+          y: np.array,
+          learning_rate: float = 0.1,
+          momentum: float = 0.1,
+          batch_size: int = 1,
+          epochs: int = 1) :
+    """
+    Fitting training data to model
+    """
+    X_batches, y_batches = self.make_batches(X, y, batch_size)
+    outputs = []
+    for epoch in range(epochs):
+      for idx_batch, (X_batch, y_batch) in enumerate(zip(X_batches, y_batches)):
+        for idx, (input_data, target_label) in enumerate(zip(X_batch, y_batch)) :
+          print("\n------ Forward passing data #{} ...\t".format((idx + 1) + (idx_batch * batch_size)), end='')
+          sys.stdout.flush()
+          output = self.forward(input_data)
+          outputs.append(list(output))
+    return outputs
 
   def save_model_as_json(self, filename: str) :
     """

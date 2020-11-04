@@ -48,7 +48,7 @@ class SimpleRNN(Layer) :
         'U': U,
         'W': W
       },
-      biases=np.random.uniform(low=0, high=1, size=(n_unit, 1)).astype("float")
+      biases=np.random.uniform(low=0, high=1, size=(n_unit,)).astype("float")
     )
     self.input = None
     self.n_unit = n_unit
@@ -112,13 +112,25 @@ class SimpleRNN(Layer) :
     timesteps = input.shape[0]
     h_t = np.zeros(self.n_unit)
     if self.return_sequences :
-      for timestep in range(len(timesteps)) :
+      for timestep in range(timesteps) :
         temp_output = np.dot(self.weights['U'], input[timestep]) + np.dot(self.weights['W'], h_t) + self.biases
-        h_t = np.tanh(h_t)
+        h_t = np.tanh(temp_output)
         self.output[timestep, :] += h_t
+        print("\nTimestep: " + str(timestep + 1))
+        for t in range(len(h_t)):
+          print("h_" + str(t+1) + " : " + str(h_t[t]))
     else :
-      for timestep in range(len(timesteps)) :
+      for timestep in range(timesteps) :
+        # print("self.weights['U'], input[timestep]" + " " + str(self.weights['U'].shape) + " " + str(input[timestep].shape))
+        # print("self.weights['U'], input[timestep]" + " " + str(self.weights['U']) + " " + str(input[timestep]))
+        # print("np.dot(self.weights['U'], input[timestep])" + " " + str(np.dot(self.weights['U'], input[timestep])))
+        # print("np.dot(self.weights['W'], h_t)" + " " + str(np.dot(self.weights['W'], h_t)))
+        # print("self.biases" + " " + str(self.biases))
         temp_output = np.dot(self.weights['U'], input[timestep]) + np.dot(self.weights['W'], h_t) + self.biases
-        h_t = np.tanh(h_t)
+        # print("temp_output: " + str(temp_output))
+        h_t = np.tanh(temp_output)
+        print("\nTimestep: " + str(timestep + 1))
+        for t in range(len(h_t)):
+          print("h_" + str(t+1) + " : " + str(h_t[t]))
       self.output += h_t
     return self.output

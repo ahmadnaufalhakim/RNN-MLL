@@ -176,6 +176,9 @@ class Dense(Layer) :
     elif (self.activation == "tanh") :
       for node in range(self.n_node) :
         self.output[node] = self.tanh(temp_output[node] + self.biases[node])
+    print("\n")
+    for t in range(len(self.output)):
+      print("y_" + str(t+1) + ": " + str(self.output[t]))
     return self.output
 
   def update_weights(self) :
