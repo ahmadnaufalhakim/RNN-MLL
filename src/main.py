@@ -93,11 +93,11 @@ if __name__ == "__main__" :
     print("Sequence " + str(t+1) + ": " + str(predicted[t]))
 
   print("\n==================================================")
-  print("Skenario 3 -> bobot = 1; seq length = 3; hidden size = 4; input size = 5; output = 1")
+  print("Skenario 3 -> bobot = 1; seq length = 4; hidden size = 5; input size = 5; output = 1")
 
   X_train = []
   y_train = []
-  timestep = 3
+  timestep = 4
   for i in range(timestep, training_set_scaled.shape[0]) :
       X_train.append(training_set_scaled[i-timestep:i, 0])
       y_train.append(training_set_scaled[i, 0])
@@ -106,7 +106,7 @@ if __name__ == "__main__" :
   X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
   model_random = SequentialModel([
-    SimpleRNN(4, input_shape=(X_train.shape[1], 1), random_mode=2),
+    SimpleRNN(5, input_shape=(X_train.shape[1], 1), random_mode=2),
     Dense(1, "linear")
   ])
 

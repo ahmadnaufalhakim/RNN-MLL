@@ -207,12 +207,10 @@ class SequentialModel:
   def forward_propagation(self,
           X: np.array,
           y: np.array,
-          learning_rate: float = 0.1,
-          momentum: float = 0.1,
           batch_size: int = 1,
           epochs: int = 1) :
     """
-    Fitting training data to model
+    Perform forward propagation on data
     """
     X_batches, y_batches = self.make_batches(X, y, batch_size)
     outputs = []
